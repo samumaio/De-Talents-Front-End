@@ -18,7 +18,7 @@ const certificateNFT = new ethers.Contract(constants.contractAddress, constants.
 
 async function main() {
     document.getElementById("immagine").addEventListener("change", readSelectedImage)
-    document.getElementById("MetamaskConnection").addEventListener("click", connect)
+    // document.getElementById("MetamaskConnection").addEventListener("click", connect)
     document.getElementById("issueCertificateForm").addEventListener("submit", uploadData)
     document.getElementsByName("reimposta")[0].addEventListener("click", reimposta)
 }
@@ -84,7 +84,6 @@ async function uploadData(event) {
     console.log(jsonData)
     let fileName = (fileImage.name.split("."))[0] + ".json"
     let metadataCID = await uploadToIPFS(JSON.stringify(jsonData), fileName, "/nftMetadata")
-    process.exit(1)
     try {
         if (metadataCID != null) {
             const tx = await certificateNFT.mintNFT(ownerAddress, "ipfs://" + metadataCID)

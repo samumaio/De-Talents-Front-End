@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagina Registrazione Istituzione</title>
+    <link rel="stylesheet" href="registra.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ipfs-http-client/dist/index.min.js"></script>
+    <script type="module" src="registra.js"></script>
+</head>
+
+<body>
+    <div id="form-container">
+        <h1>Registrazione Istituzione</h1>
+        <input type="text" id="institutionName" name="institutionName" placeholder="Inserisci il nome dell'istituzione">
+        <button id="registerButton" onclick="verificaNome()">Registra Istituzione</button>
+        <div id="output"></div>
+    </div>
+</body>
+
+</html>

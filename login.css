@@ -1,0 +1,144 @@
+/* Stile generale */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    color: #444;
+}
+
+/* Contenitore per informazioni istituzione */
+#institutionInfo {
+    max-width: 600px;
+    margin: 50px auto 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+#institutionInfo p {
+    font-size: 1.2rem;
+    color: #555;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+/* Colore per stato VERIFIED */
+.stato-verde {
+    color: #28a745;
+    font-weight: bold;
+}
+
+/* Colore per stato UNVERIFIED */
+.stato-rosso {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* Pulsante proposta */
+#proposalButton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#proposalButton:hover {
+    background-color: #0056b3;
+    transform: scale(1.03);
+}
+
+/* Contenitore proposte attive */
+#elencoProposte {
+    max-width: 800px;
+    margin: 0 auto 50px;
+    padding: 20px;
+}
+
+/* Singola proposta */
+.proposal-item {
+    background-color: #ffffff;
+    border-left: 6px solid #007bff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+}
+
+.proposal-item:hover {
+    transform: translateY(-3px);
+}
+
+.proposal-item p {
+    margin: 8px 0;
+    font-size: 1rem;
+    color: #333;
+}
+
+/* Timer rimanente */
+.timer {
+    font-weight: bold;
+    color: #ff5722;
+    margin-top: 10px;
+}
+
+.button-for,
+.button-against {
+    padding: 10px 20px;
+    margin: 10px 10px 0 0;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    color: white;
+}
+
+.button-for {
+    background-color: #28a745;
+}
+
+.button-for:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+.button-against {
+    background-color: #dc3545;
+}
+
+.button-against:hover {
+    background-color: #c82333;
+    transform: scale(1.05);
+}
+
+
+/* Responsività */
+@media (max-width: 768px) {
+
+    #institutionInfo,
+    #elencoProposte {
+        width: 90%;
+    }
+
+    .proposal-item p {
+        font-size: 0.95rem;
+    }
+}

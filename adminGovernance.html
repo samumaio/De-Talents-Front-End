@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagina admin</title>
+    <link rel="stylesheet" href="stylesGovernance.css">
+    <script type="module" src="adminGovernance.js"> </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ipfs-http-client/dist/index.min.js"></script>
+</head>
+
+<body>
+    <h1>Pagina Admin</h1>
+
+    <div id="issueCertificateForm">
+        <h2>Elenco Istituzioni</h2>
+        <div id="elencoIstituzioni" class="card-container"></div>
+        <h2>Seleziona un'Istituzione Non Verificata</h2>
+        <select id="selezionaIstituzione"></select>
+        <div id="buttonContainer">
+            <button id="bottoneSelezione" onclick="verifica()">Verifica Istituzione</button>
+        </div>
+
+        <div id="error">Errore durante l'interazione con il contratto.</div>
+        <div id="success">Azione completata con successo.</div>
+    </div>
+
+    <div id="elencoProposte">
+        <h2> Esegui le proposte </h2>
+    </div>
+</body>
+
+</html>
