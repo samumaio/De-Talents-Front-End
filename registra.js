@@ -61,6 +61,7 @@ async function verificaNome() {
         await tx.wait();
 
         document.getElementById("output").innerText = "Institution registered successfully!";
+        window.location.href = "login.html";
       }
     } else {
       alert(`Il campo nome non può essere vuoto o composto da soli spazi.`);

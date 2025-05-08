@@ -1,142 +1,223 @@
-/* Stile generale */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f9f9f9;
-    color: #333;
-    line-height: 1.6;
+/* Container Principale */
+.certificate-container {
+    padding: 0 5% 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-h1 {
-    text-align: center;
-    margin-top: 20px;
-    color: #444;
-}
-
-/* Pulsante Metamask */
-button#MetamaskConnection {
-    display: block;
-    margin: 20px auto;
-    padding: 10px 20px;
-    font-size: 1rem;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button#MetamaskConnection:hover {
-    background-color: #0056b3;
-}
-
-/* Stile form */
-#issueCertificateForm {
-    margin: auto;
-    width: 80%;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-#issueCertificateForm label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #555;
-}
-
-#issueCertificateForm input,
-#issueCertificateForm textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1rem;
-    box-sizing: border-box;
-}
-
-#issueCertificateForm input[type="submit"],
-#issueCertificateForm input[type="reset"] {
-    width: 48%;
-    margin-right: 2%;
-    padding: 10px;
-    font-size: 1rem;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#issueCertificateForm input[type="submit"]:hover {
-    background-color: #218838;
-}
-
-#issueCertificateForm input[type="reset"] {
-    background-color: #ffc107;
-}
-
-#issueCertificateForm input[type="reset"]:hover {
-    background-color: #e0a800;
-}
-
-/* Selettore file */
-.file-select {
-    text-align: center;
-    padding: 10px;
-    border: 1px dashed #ddd;
-    border-radius: 5px;
-    background-color: #f8f9fa;
-    margin-top: 10px;
-}
-
-.file-select img {
-    display: block;
-    margin: 10px auto;
-    border-radius: 5px;
-    max-width: 100%;
-    height: auto;
-}
-
-/* Messaggi di errore e successo */
-#error,
-#success {
-    margin: 20px auto;
-    padding: 15px;
-    width: 80%;
-    border-radius: 5px;
-    text-align: center;
-    font-size: 1rem;
+.status-message.success {
     display: none;
 }
 
-#error {
-    background-color: #f8d7da;
+.status-message.error {
+    display: none;
+}
+
+
+/* Card del Form */
+.certificate-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 1rem 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 2rem;
+}
+
+.section-header i {
+    font-size: 1.8rem;
+    color: var(--primary);
+}
+
+.section-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--dark);
+}
+
+/* Form Styling */
+.certificate-form {
+    margin-top: 1.5rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.certificate-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--dark);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.certificate-form input,
+.certificate-form textarea,
+.certificate-form select {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    transition: border 0.3s, box-shadow 0.3s;
+}
+
+.certificate-form input:focus,
+.certificate-form textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(78, 68, 206, 0.1);
+    outline: none;
+}
+
+.form-hint {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: 0.8rem;
+    color: var(--gray);
+}
+
+/* File Upload */
+.file-upload {
+    margin-top: 0.5rem;
+}
+
+.dashboard-header nav a.active {
+    color: var(--primary);
+}
+
+.upload-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.8rem 1.5rem;
+    background: var(--light);
+    border: 1px dashed var(--gray);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.upload-label:hover {
+    background: #f0f2ff;
+    border-color: var(--primary);
+}
+
+.file-upload input[type="file"] {
+    display: none;
+}
+
+.file-preview {
+    margin-top: 1rem;
+    text-align: center;
+    padding: 1.5rem;
+    border: 1px dashed #ddd;
+    border-radius: 8px;
+    background: #f8f9fa;
+}
+
+.file-preview img {
+    max-width: 100%;
+    max-height: 200px;
+    margin-top: 1rem;
+    border-radius: 8px;
+    display: none;
+}
+
+/* Form Actions */
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    justify-content: flex-end;
+}
+
+/* Status Messages */
+.status-message {
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.status-message i {
+    font-size: 1.5rem;
+    margin-top: 0.2rem;
+}
+
+.status-message h4 {
+    margin: 0 0 0.5rem;
+    font-size: 1.1rem;
+}
+
+.status-message p {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.status-message.error {
+    background: #f8d7da;
     color: #721c24;
-    border: 1px solid #f5c6cb;
+    border-left: 4px solid #dc3545;
 }
 
-#success {
-    background-color: #d4edda;
+.status-message.error i {
+    color: #dc3545;
+}
+
+.status-message.success {
+    background: #d4edda;
     color: #155724;
-    border: 1px solid #c3e6cb;
+    border-left: 4px solid #28a745;
 }
 
-/* Responsività */
+.status-message.success i {
+    color: #28a745;
+}
+
+.text-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 0.8rem;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.text-button:hover {
+    text-decoration: underline;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-    #issueCertificateForm {
-        width: 90%;
+    .form-actions {
+        flex-direction: column;
     }
 
-    #issueCertificateForm input[type="submit"],
-    #issueCertificateForm input[type="reset"] {
+    .primary-button,
+    .secondary-button {
         width: 100%;
-        margin-bottom: 10px;
     }
 }

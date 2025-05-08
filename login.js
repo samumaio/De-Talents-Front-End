@@ -1,8 +1,6 @@
 import { ethers } from "./ethers-frontend.js"
 import * as constants from "./constants.js"
 
-
-
 async function displayActiveProposals(signer) {
   const governanceContract = new ethers.Contract(constants.governanceContractAddress, constants.governanceAbi, signer)
   const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -54,7 +52,7 @@ async function displayActiveProposals(signer) {
     //Pulsante per il voto a favore
     const voteForBtn = document.createElement("button");
     voteForBtn.textContent = "Vota a favore";
-    voteForBtn.className = "button-for";
+    voteForBtn.className = "vote-button for";
     voteForBtn.onclick = async () => {
       try {
         const tx = await governanceContract.vote(activeVerifiedProposals[i].proposalId, true);
@@ -68,7 +66,7 @@ async function displayActiveProposals(signer) {
     //Pulsante per il voto contrario
     const voteAgainstBtn = document.createElement("button");
     voteAgainstBtn.textContent = "Vota contro ";
-    voteAgainstBtn.className = "button-against";
+    voteAgainstBtn.className = "vote-button against";
     voteAgainstBtn.onclick = async () => {
       try {
         const tx = await governanceContract.vote(activeVerifiedProposals[i].proposalId, false);
@@ -104,50 +102,38 @@ async function fetchInstitutionInfo() {
   }
 
   try {
-    // Richiedi l'accesso agli account di MetaMask
-    await window.ethereum.request({ method: 'eth_requestAccounts' });
+    //await window.ethereum.request({ method: 'eth_requestAccounts' });
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const userAddress = await signer.getAddress();
 
-    // Instanzia il contratto e chiama le funzioni
     const contract = new ethers.Contract(constants.governanceContractAddress, constants.governanceAbi, signer);
     //const governanceContract = new ethers.Contract(constants.governanceContractAddress, constants.governanceAbi, signer)
     const institutionName = await contract.getInstitutionName(userAddress);
     const institutionStatus = await contract.getInstitutionStatus(userAddress);
-
-    // Aggiorna il nome dell'istituzione con grassetto
+    if (institutionStatus == 0) {    //se l'indirizzo non è un istituzione reindirizza alla pagina di registrazione
+      window.location.href = "registra.html";
+    }
+    await fetchLogs();
     const nomeElemento = document.getElementById("institutionName");
-    nomeElemento.innerHTML = `Nome Istituzione: <strong>${institutionName}</strong>`;
+    nomeElemento.innerHTML = `<strong>${institutionName}</strong>`;
 
-    // Determina e applica il colore dello stato
     const statoElemento = document.getElementById("institutionStatus");
     let statusText;
     switch (institutionStatus) {
-      case 0:
-        statusText = "NOT AN INSTITUTION";
-        statoElemento.innerHTML = `Stato Istituzione: ${statusText}`;
-        statoElemento.style.color = "#555"; // Grigio per uno stato non definito
-        break;
       case 1:
         statusText = "UNVERIFIED";
         console.log("Address: " + userAddress)
         console.log("Stato Istituzione " + await contract.getInstitutionStatus(userAddress))
         console.log("Tempo rimanenete " + await contract.getDaysLeft(userAddress))
         statoElemento.innerHTML = `Stato Istituzione: <span class="stato-rosso">${statusText}</span>`;
-        const verificationButton = document.createElement("button")
-        const node = document.createTextNode("Richiedi la verifica dell'istituzione")
-        verificationButton.appendChild(node)
-        verificationButton.id = "proposalButton"
+        const verificationButton = document.getElementById("proposalButton");
         verificationButton.addEventListener("click", async function () {
           //viene creata una proposal della durata di 180 secondi (prova)
           //const estimatedGas = await governanceContract.estimateGas.createProposal(300, false).catch(() => 1000000);
-
-          const tx = await contract.createProposal(300 * 6, false);
+          const tx = await contract.createProposal(2, true);
           await tx.wait(4)
-
         })
-        document.getElementById("institutionInfo").appendChild(verificationButton)
         break;
       case 2:
         statusText = "VERIFIED";
@@ -155,6 +141,9 @@ async function fetchInstitutionInfo() {
         statoElemento.innerHTML = `Stato Istituzione: <span class="stato-verde">${statusText}</span>`;
         //se l'istituzione e' verificata, si mostrano tutte le proposte di voto attualmente attive 
         await displayActiveProposals(signer);
+        const proposalButton = document.getElementById("proposalButton");
+        proposalButton.hidden = true
+        proposalButton.style.display = "none";
         break;
       default:
         statusText = "UNKNOWN STATUS";
@@ -167,6 +156,17 @@ async function fetchInstitutionInfo() {
 }
 
 
+//Funzione che dati i nomi degli events dello smart contract, esegue una query con i rispettivi topics su etherscan  
+async function fetchLogs(topics) {
+  const etherscanURL = `https://api.etherscan.io/api?module=logs&action=getLogs&address=${constants.governanceContractAddress}&startblock=0&endblock=latest&apikey=${constants.ETHERSCAN_API_KEY}`;
+  try {
+    const response = await fetch(etherscanURL);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    alert("Qualcosa è andato storto!");
+  }
+}
 
 
 window.onload = fetchInstitutionInfo();

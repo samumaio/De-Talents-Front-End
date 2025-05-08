@@ -1,22 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View User Certificates </title>
-    <script type="module" src="viewCertificates.js"> </script>
-    <script src="https://cdn.jsdelivr.net/npm/ipfs-http-client/dist/index.min.js"></script>
+    <title>I Tuoi Certificati | DeTalents</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="viewUserCertificates.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ipfs-http-client/dist/index.min.js"></script>
+    <link rel="icon" type="image/x-icon" href="graduation-cap-solid.svg">
+    <script type="module" src="viewCertificates.js"></script>
 </head>
 
 <body>
-    <h1> Visualizza Certificati utente </h1>
+    <header class="dashboard-header">
+        <div class="logo-container">
+            <i class="fas fa-graduation-cap"></i>
+            <h1>DeTalents</h1>
+        </div>
+        <nav>
+            <a href="home.html"><i class="fas fa-home"></i>Home</a>
+            <a href="progetti.html"><i class="fa-solid fa-money-bill"></i> Visualizza gli annunci</a>
+        </nav>
+    </header>
+    <div class="breadcrumb">
+        <a href="home.html">Home </a> >
+        <span> Pagina Utente </span>
+    </div>
+    <div class="container">
+        <header class="page-header">
+            <h1><i class="fas fa-certificate"></i> I Tuoi Certificati</h1>
+            <p>Visualizza tutti i certificati NFT emessi a tuo nome</p>
+        </header>
+
+        <div id="certificates-container">
+            <div class="empty-state" id="wallet-connect-prompt">
+                <i class="fas fa-wallet"></i>
+                <h3>Connetti il tuo Wallet</h3>
+                <p>Per visualizzare i tuoi certificati, connetti il tuo portafoglio MetaMask</p>
+                <button class="connect-wallet-btn" id="connectWalletBtn">
+                    <i class="fas fa-plug"></i> Connetti MetaMask
+                </button>
+            </div>
+
+            <div class="empty-state" id="no-certificates" style="display: none;">
+                <i class="fas fa-search"></i>
+                <h3>Nessun certificato trovato</h3>
+                <p>Non hai ancora ricevuto certificati NFT. Contatta la tua istituzione per maggiori informazioni.</p>
+            </div>
+
+            <div class="certificates-grid" id="certificates-grid" style="display: none;">
+            </div>
+        </div>
+    </div>
 </body>
-<div id="certificates-container">
-    <p>Connettiti a MetaMask per visualizzare i tuoi certificati NFT.</p>
-</div>
-
-
 
 </html>

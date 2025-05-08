@@ -4,20 +4,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagina Registrazione Istituzione</title>
-    <link rel="stylesheet" href="registra.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+    <title>Registrazione Istituzione | DeTalents</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/ipfs-http-client/dist/index.min.js"></script>
-    <script type="module" src="registra.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+
+    <link rel="stylesheet" href="registra.css">
+    <script type="module" src="registra.js"> </script>
 </head>
 
 <body>
-    <div id="form-container">
-        <h1>Registrazione Istituzione</h1>
-        <input type="text" id="institutionName" name="institutionName" placeholder="Inserisci il nome dell'istituzione">
-        <button id="registerButton" onclick="verificaNome()">Registra Istituzione</button>
-        <div id="output"></div>
+    <div class="container">
+        <div class="registration-card">
+            <h1 class="registration-title">
+                <i class="fas fa-university"></i> Registrati come Istituzione
+            </h1>
+
+            <input type="text" id="institutionName" class="input-field" placeholder="Nome istituzione"
+                aria-label="Nome istituzione">
+
+            <button id="registerButton" class="action-button" onclick="verificaNome()">
+                <i class="fas fa-paper-plane"></i> Registra Istituzione
+            </button>
+            <div id="messageContainer">
+                <p id="output"> </p>
+            </div>
+        </div>
     </div>
+
 </body>
 
 </html>

@@ -1,144 +1,366 @@
-/* Stile generale */
+:root {
+    --primary: #4e44ce;
+    --primary-light: #6a60e6;
+    --secondary: #1a237e;
+    --success: #1f6531;
+    --danger: #bf2f3e;
+    --warning: #ffc107;
+    --dark: #2d3748;
+    --light: #f8f9fa;
+    --gray: #6c757d;
+}
+
+/* Reset e Stili Base */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9;
-    color: #333;
+    background-color: #f5f7ff;
+    color: var(--dark);
     line-height: 1.6;
 }
 
-h1 {
-    text-align: center;
-    margin-top: 20px;
-    color: #444;
+/* Header */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 5%;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
-/* Contenitore per informazioni istituzione */
-#institutionInfo {
-    max-width: 600px;
-    margin: 50px auto 20px;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    text-align: center;
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-#institutionInfo p {
-    font-size: 1.2rem;
-    color: #555;
-    margin: 10px 0;
-    font-weight: bold;
+.logo {
+    height: 40px;
 }
 
-/* Colore per stato VERIFIED */
-.stato-verde {
-    color: #28a745;
-    font-weight: bold;
+.dashboard-header nav {
+    display: flex;
+    align-items: center;
+    gap: 25px;
 }
 
-/* Colore per stato UNVERIFIED */
-.stato-rosso {
-    color: #dc3545;
-    font-weight: bold;
+.dashboard-header nav a {
+    color: var(--gray);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-/* Pulsante proposta */
-#proposalButton {
-    background-color: #007bff;
+.dashboard-header nav a:hover,
+.dashboard-header nav a.active {
+    color: var(--primary);
+}
+
+.wallet-button {
+    background: var(--primary);
     color: white;
     border: none;
+    padding: 0.6rem 1.2rem;
     border-radius: 8px;
-    padding: 10px 20px;
-    font-size: 1rem;
-    font-weight: bold;
+    font-weight: 500;
     cursor: pointer;
-    margin-top: 15px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
 }
 
-#proposalButton:hover {
-    background-color: #0056b3;
-    transform: scale(1.03);
+.wallet-button:hover {
+    background: var(--primary-light);
+    transform: translateY(-2px);
 }
 
-/* Contenitore proposte attive */
-#elencoProposte {
-    max-width: 800px;
-    margin: 0 auto 50px;
-    padding: 20px;
+/* Breadcrumb */
+.breadcrumb {
+    padding: 1rem 5%;
+    color: var(--gray);
+    font-size: 0.9rem;
 }
 
-/* Singola proposta */
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+/* Card Istituzione */
+.institution-container {
+    padding: 0 5% 3rem;
+}
+
+.institution-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 1rem 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.institution-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 1.5rem;
+}
+
+.institution-icon {
+    font-size: 2rem;
+    color: var(--primary);
+}
+
+.institution-card h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: var(--dark);
+}
+
+.status-badge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-left: auto;
+}
+
+.status-badge.pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-badge.verified {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-badge.rejected {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.institution-meta {
+    display: flex;
+    gap: 2rem;
+    margin: 1.5rem 0;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--gray);
+}
+
+.institution-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.primary-button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+
+.primary-button:hover {
+    background: var(--primary-light);
+    transform: translateY(-2px);
+}
+
+.secondary-button {
+    background: white;
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+
+.secondary-button:hover {
+    background: #f0f2ff;
+    transform: translateY(-2px);
+}
+
+/* Sezione Proposte */
+.proposals-section {
+    margin-top: 3rem;
+}
+
+.proposals-section h3 {
+    font-size: 1.5rem;
+    color: var(--dark);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.proposals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
 .proposal-item {
-    background-color: #ffffff;
-    border-left: 6px solid #007bff;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    transition: transform 0.2s ease;
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-top: 4px solid var(--primary);
 }
 
 .proposal-item:hover {
-    transform: translateY(-3px);
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
-.proposal-item p {
-    margin: 8px 0;
-    font-size: 1rem;
-    color: #333;
+.proposal-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: var(--dark);
 }
 
-/* Timer rimanente */
-.timer {
-    font-weight: bold;
-    color: #ff5722;
-    margin-top: 10px;
+.proposal-description {
+    color: var(--gray);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
 }
 
-.button-for,
-.button-against {
-    padding: 10px 20px;
-    margin: 10px 10px 0 0;
-    font-size: 1rem;
-    font-weight: bold;
+.proposal-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--gray);
+    margin-bottom: 1rem;
+}
+
+.proposal-timer {
+    font-weight: 600;
+    color: var(--danger);
+}
+
+.proposal-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.vote-button {
+    flex: 1;
+    padding: 0.6rem;
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
+    font-weight: 500;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.vote-button.for {
+    background: var(--success);
     color: white;
 }
 
-.button-for {
-    background-color: #28a745;
+.vote-button.against {
+    background: var(--danger);
+    color: white;
 }
 
-.button-for:hover {
-    background-color: #218838;
-    transform: scale(1.05);
+.vote-button:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
 }
 
-.button-against {
-    background-color: #dc3545;
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    grid-column: 1 / -1;
+    color: var(--gray);
 }
 
-.button-against:hover {
-    background-color: #c82333;
-    transform: scale(1.05);
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #d1d5db;
 }
 
+/* Footer */
+.dashboard-footer {
+    background: var(--dark);
+    color: white;
+    text-align: center;
+    padding: 1.5rem;
+    margin-top: 3rem;
+}
 
-/* Responsività */
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.footer-links a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.footer-links a:hover {
+    color: #d1d5db;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-
-    #institutionInfo,
-    #elencoProposte {
-        width: 90%;
+    .dashboard-header {
+        flex-direction: column;
+        padding: 1rem;
     }
 
-    .proposal-item p {
-        font-size: 0.95rem;
+    .dashboard-header nav {
+        margin-top: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .institution-meta {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .proposals-grid {
+        grid-template-columns: 1fr;
     }
 }

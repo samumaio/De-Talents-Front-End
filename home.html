@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeTalents Landing Page </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/ipfs-http-client/dist/index.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+    <link rel="stylesheet" href="home.css">
+    <script type="module" src="home.js"> </script>
+    <link rel="icon" type="image/x-icon" href="graduation-cap-solid.svg">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            <span>DeTalents</span>
+        </div>
+        <div class="nav-links">
+            <a href="#features">Funzionalità</a>
+            <a href="#how-it-works">Come Funziona</a>
+            <a href="#demo">Demo</a>
+            <a href="#for-institutions">Per Istituzioni</a>
+            <a href="viewUserCertificates.html">Per Utenti</a>
+        </div>
+        <button class="cta-button" id="connect" onclick="main()">
+            <i class=" fas fa-wallet"></i>
+            <span id="walletAddress">Connetti Metamask</span>
+        </button>
+    </nav>
+
+    <section class="hero">
+        <h1>Certificati Accademici Immutabili su Blockchain</h1>
+        <p>DeTalents è una piattaforma decentralizzata scalabile che rielabora il modo in cui le istituzioni rilasciano
+            i propri certificati,
+            garantendo integrità e trasparenza</p>
+    </section>
+
+    <section class="features" id="features">
+        <h2 class="section-title">Gli obiettivi di DeTalents</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Antifalsificazione</h3>
+                <p>Ogni certificato è registrato come NFT sulla blockchain, permettendo agli utenti di costruire il
+                    proprio CV in modo immutabile.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>Governance Decentralizzata</h3>
+                <p>Le istituzioni educative vengono verificate attraverso un sistema di voto democratico gestito da una
+                    DAO trasparente.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-book-open"></i>
+                </div>
+                <h3>Open Source e Accessibilità</h3>
+                <p>Incentiva lo sviluppo di codice open-source. Ogni utente può concretizzare le idee in codice
+                    premiando i contribuenti in ricompense </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                </div>
+                <h3>Equo per committenti e contributori</h3>
+                <p>Oracolo Chainlink-Github e smart contracts trasparenti garantiscono gli interessi di entrambe le
+                    parti </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-network-wired"></i>
+                </div>
+                <h3> Piattaforma Scalabile </h3>
+                <p> DeTalents è una piattaforma open-source, trasparente ed estendibile. In armonia con l'ecosistema
+                    blockchain
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-infinity"></i>
+                </div>
+                <h3>Archiviazione Permanente</h3>
+                <p>I certificati sono conservati per sempre sulla blockchain, accessibili in qualsiasi momento dallo
+                    studente.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="demo" id="demo">
+        <h2>Guarda DeTalents in Azione</h2>
+        <div class="demo-container">
+            <a href="" id="etherscanBtn" target="_blank" class="contractOnEtherscan"> </a>
+        </div>
+    </section>
+
+    <section class="how-it-works" id="how-it-works">
+        <h2 class="section-title">Come Funziona</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div>
+                    <h3>Registrazione Istituzione</h3>
+                    <p>Le istituzioni si registrano sulla piattaforma e vengono verificate attraverso il sistema di voto
+                        DAO.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div>
+                    <h3>Rilascio Certificato</h3>
+                    <p>L'istituzione verifica i risultati dello studente e rilascia il certificato come NFT sulla
+                        blockchain.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div>
+                    <h3>Possesso e Controllo</h3>
+                    <p>Lo studente riceve il certificato NFT nel suo wallet, con pieno controllo sulla condivisione.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <div>
+                    <h3>Verifica Istantanea</h3>
+                    <p>Datori di lavoro o università possono verificare l'autenticità del certificato in pochi secondi.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="for-institutions" style="padding: 5rem 5%; background: white; text-align: center;">
+        <h2 class="section-title">Per le Istituzioni Educative</h2>
+        <p style="max-width: 700px; margin: 0 auto 2rem;">Unisciti alla rete decentralizzata di istituzioni certificate
+            e inizia a rilasciare certificati immutabili.</p>
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+            <button class="cta-button" style="background: var(--success);"> <a href="login.html"
+                    style="color: aliceblue;"> Registra la tua
+                    Istituzione </a></button>
+        </div>
+    </section>
+
+    <footer>
+        <div class="logo" style="justify-content: center; color: aliceblue;">
+            <i class="fas fa-graduation-cap"></i>
+            <span>DeTalents</span>
+        </div>
+        <p>La piattaforma decentralizzata per certificati accademici verificabili</p>
+        <div class="footer-links" style="color: aliceblue;">
+            <a href="#">Documentazione</a>
+        </div>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-telegram"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const featureCards = document.querySelectorAll('.feature-card');
+            featureCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = `all 0.5s ease ${index * 0.1}s`;
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100);
+            });
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

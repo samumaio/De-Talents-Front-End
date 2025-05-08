@@ -4,22 +4,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualizza Istituzione</title>
+    <title>DeTalents - Visualizza Istituzione</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="login.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/ipfs-http-client/dist/index.min.js"></script>
-    <script type="module" src="login.js"></script>
+    <script type="module" src="login.js"> </script>
+    <link rel="icon" type="image/x-icon" href="graduation-cap-solid.svg">
 </head>
 
 <body>
-    <h1>Visualizza Istituzione</h1>
-    <div id="institutionInfo">
-        <p id="institutionName">Nome Istituzione: </p>
-        <p id="institutionStatus">Stato Istituzione: </p>
-    </div>
-    <div id="elencoProposte">
+    <header class="dashboard-header">
+        <div class="logo-container">
+            <i class="fas fa-graduation-cap"></i>
+            <h1>DeTalents</h1>
+        </div>
+        <nav>
+            <a href="home.html"><i class="fas fa-home"></i>Home</a>
+            <a href="issueCertificate.html"><i class="fas fa-certificate"></i> Rilascia un certificato</a>
+            <a href="login.html" class="active"><i class="fas fa-vote-yea"></i> Governance</a>
+        </nav>
+    </header>
 
-    </div>
+    <main class="institution-container">
+        <div class="breadcrumb">
+            <a href="home.html">Home </a> >
+            <a href="login.html">Istituzione </a> >
+        </div>
+
+        <section class="institution-card">
+            <div class="institution-header">
+                <i class="fas fa-university institution-icon"></i>
+                <h2 id="institutionName"></h2>
+                <span id="institutionStatus" class="status-badge pending"></span>
+            </div>
+
+            <div class="institution-meta">
+                <div class="meta-item">
+                    <i class="fas fa-certificate"></i>
+                    <span id="certificatesCount">0</span> Certificati emessi
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    Registrata il: <span id="registrationDate">01/01/2023</span>
+                </div>
+            </div>
+
+            <div class="institution-actions">
+                <button id="proposalButton" class="primary-button">
+                    <i class="fas fa-plus-circle"></i> Richiedi la verifica
+                </button>
+            </div>
+        </section>
+
+        <section class="proposals-section">
+            <h3><i class="fas fa-vote-yea"></i> Proposte Attive</h3>
+            <div id="elencoProposte" class="proposals-grid">
+                <div class="empty-state">
+                    <i class="fas fa-box-open"></i>
+                    <p>Nessuna proposta attiva</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="dashboard-footer">
+        <p>DeTalents</p>
+        <div class="footer-links">
+            <a href="#"><i class="fab fa-github"></i> GitHub</a>
+            <a href="#"><i class="fas fa-book"></i> Docs</a>
+        </div>
+    </footer>
 </body>
 
 </html>

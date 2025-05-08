@@ -13,14 +13,14 @@ const success = document.getElementById("success-para")
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
 //inizializza il contratto 
-const certificateNFT = new ethers.Contract(constants.contractAddress, constants.abi, signer)
+const certificateNFT = new ethers.Contract(constants.governanceContractAddress, constants.governanceAbi, signer)
 
 
 async function main() {
     document.getElementById("immagine").addEventListener("change", readSelectedImage)
     // document.getElementById("MetamaskConnection").addEventListener("click", connect)
     document.getElementById("issueCertificateForm").addEventListener("submit", uploadData)
-    document.getElementsByName("reimposta")[0].addEventListener("click", reimposta)
+    //document.getElementsByName("reimposta")[0].addEventListener("click", reimposta)
 }
 async function connect() {
     console.log("Logging to metamask ....")
@@ -73,16 +73,19 @@ async function uploadData(event) {
         dataRilascio = new Date().getTime()
     }
     let ownerAddress = document.getElementById("walletAddress").value
+    tokenID = Number(await certificateNFT.getCounter());
     const jsonData = {
         ownerAddress: ownerAddress,
+        tokenId: tokenID,
         ownerName: document.getElementById("nome").value,
         ownerSurname: document.getElementById("cognome").value,
         description: document.getElementById("descrizione").value,
+        institutionAddress: "" + (await signer.getAddress()),            //address of the institution that mints the NFT
         releaseDate: dataRilascio,
         certificateCID: "" + imageCid,
     }
     console.log(jsonData)
-    let fileName = (fileImage.name.split("."))[0] + ".json"
+    let fileName = imageCid + Math.floor(Math.random() * 10000000) + ".json"
     let metadataCID = await uploadToIPFS(JSON.stringify(jsonData), fileName, "/nftMetadata")
     try {
         if (metadataCID != null) {
@@ -138,6 +141,8 @@ async function uploadToIPFS(data, title, dir) {
             const fileStat = await constants.ipfs.files.stat(dir + "/" + title)
             cid = fileStat.cid
             success.innerHTML = "File successfully uploaded to: " + cid
+            success.style.visibility = "visible";
+            success.style.display = "block";
         } else {
             alert("Nome già presente nel file system distribuito, per favore cambiare il nome del file ")
             error.hidden = false
@@ -155,6 +160,9 @@ async function loadImage(imageUrl) {
     const image = document.getElementById("selectedImageContainer")
     viewImage.hidden = false
     image.src = imageUrl
+    image.style.visibility = "visible";
+    image.style.display = "inline-block";
+    document.getElementById("altPara").innerHTML = "";
 }
 
 function reimposta() {
