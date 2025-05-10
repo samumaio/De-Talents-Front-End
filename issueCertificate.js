@@ -1,173 +1,175 @@
-import { ethers } from "./ethers-frontend.js"
-import * as constants from "./constants.js"
+import { ethers } from "./ethers-frontend.js";
+import * as constants from "./constants.js";
 
+document.addEventListener("DOMContentLoaded", () => main());
 
-document.addEventListener("DOMContentLoaded", main())
-let blobImage = null
-let fileImage = null
+let blobImage = null;
+let fileImage = null;
 
-const error = document.getElementById("error-para")
-const success = document.getElementById("success-para")
+// API e Gateway di Pinata
+const PINATA_API_KEY = "c64b26d404a2e509af87";
+const PINATA_API_SECRET = "88a014b7eee87920ce956a8f3336625d1da4f9c7f6a0e9632249042b2c0202fd";
+const PINATA_GETAWAY = "jade-peculiar-rhinoceros-412.mypinata.cloud";
 
-//connessione al provider 
+const error = document.getElementById("error-para");
+const success = document.getElementById("success-para");
+
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
-//inizializza il contratto 
-const certificateNFT = new ethers.Contract(constants.governanceContractAddress, constants.governanceAbi, signer)
 
+const certificateNFT = new ethers.Contract(constants.governanceContractAddress, constants.governanceAbi, signer);
 
 async function main() {
-    document.getElementById("immagine").addEventListener("change", readSelectedImage)
-    // document.getElementById("MetamaskConnection").addEventListener("click", connect)
-    document.getElementById("issueCertificateForm").addEventListener("submit", uploadData)
-    //document.getElementsByName("reimposta")[0].addEventListener("click", reimposta)
+    document.getElementById("immagine").addEventListener("change", readSelectedImage);
+    document.getElementById("issueCertificateForm").addEventListener("submit", uploadData);
 }
-async function connect() {
-    console.log("Logging to metamask ....")
-    if (typeof window.ethereum !== 'undefined') {
+
+export async function connect() {
+    console.log("Logging to Metamask...");
+    if (typeof window.ethereum !== "undefined") {
         try {
-            await window.ethereum.request({ method: "eth_requestAccounts" })
+            await window.ethereum.request({ method: "eth_requestAccounts" });
+            console.log("Wallet connesso con successo!");
         } catch (error) {
-            console.log(error)
+            console.log("Errore nella connessione a Metamask:", error);
         }
-        console.log("wallet successfully connected! ")
     } else {
-        console.log("Please install Metamask ")
+        console.log("Per favore installa Metamask.");
     }
 }
-
-
-// //funzione che controlla che il file JSON contenente i metadati dell
-// async function controllaNomi(data) {
-//     const fileHash = await constants.ipfs.files.write("/nftImages/file", data, { onlyHash: true })
-//     console.log(fileHash)
-//     const hostedFiles = []
-//     for await (let files of constants.ipfs.files.ls("/nftImages")) {
-//         hostedFiles.push(files)
-//     }
-//     let fileEsistente = false;
-
-//     for (let i = 0; i < hostedFiles.length; i++) {
-//         const existingFileStat = await constants.ipfs.files.stat("/nftImages/" + hostedFiles[i].name)
-//         if (existingFileStat.cid.toString() === fileHash.cid.toString()) {
-//             fileEsistente = true
-//             break;
-//         }
-//     }
-// }
-
 
 async function uploadData(event) {
-    event.preventDefault()
-    //Funzione che carica i dati su IPFS e registra il corrispondente hash nello smart contract
-    let imageCid
-    let tokenID;
+    event.preventDefault();
+    
+    const imageFile = document.getElementById("selectedFileContainer").files[0];
+    if (!imageFile) {
+        alert("Devi caricare un'immagine!");
+        return;
+    }
 
-    if (blobImage !== null && fileImage !== null) {
-        imageCid = await uploadToIPFS(blobImage, fileImage.name, "/nftImages")
-    } else {
-        alert("Per favore inserire un immagine Inserire un immagine ")
+    // pubblicazione dell immagine su pinata e ottieni il cid
+    const imageData = await uploadFileToPinata(imageFile);
+    if (!imageData) {
+        document.getElementById("status").innerHTML = "Errore nella pubblicazione dell'immagine su Pinata.";
+        return;
     }
-    let dataRilascio = document.getElementsByName("dataRilascio")[0]?.value
-    if (dataRilascio == null) {
-        dataRilascio = new Date().getTime()
-    }
-    let ownerAddress = document.getElementById("walletAddress").value
-    tokenID = Number(await certificateNFT.getCounter());
+
+    const imageCID = imageData.cid;
+    const timestamp = imageData.timestamp;
+
+    let dataRilascio = document.getElementsByName("dataRilascio")[0]?.value || new Date().getTime();
+    let ownerAddress = document.getElementById("walletAddress").value;
+    let tokenID = Number(await certificateNFT.getCounter());
+
     const jsonData = {
         ownerAddress: ownerAddress,
         tokenId: tokenID,
         ownerName: document.getElementById("nome").value,
         ownerSurname: document.getElementById("cognome").value,
         description: document.getElementById("descrizione").value,
-        institutionAddress: "" + (await signer.getAddress()),            //address of the institution that mints the NFT
+        institutionAddress: "" + (await signer.getAddress()),
         releaseDate: dataRilascio,
-        certificateCID: "" + imageCid,
+        image: `https://${PINATA_GETAWAY}/ipfs/${imageCID}`
+    };
+
+    // pubblicazione del json su pinata
+    const jsonCID = await pinJSONToPinata(jsonData, timestamp);
+    if (!jsonCID) {
+        console.log("ERRORE, JSON non pubblicato su Pinata");
+        return;
     }
-    console.log(jsonData)
-    let fileName = imageCid + Math.floor(Math.random() * 10000000) + ".json"
-    let metadataCID = await uploadToIPFS(JSON.stringify(jsonData), fileName, "/nftMetadata")
+
     try {
-        if (metadataCID != null) {
-            const tx = await certificateNFT.mintNFT(ownerAddress, "ipfs://" + metadataCID)
-
-            // const receipt = await tx.wait()
-            // console.log(receipt)
-            // tokenID = await receipt.logs[0].args[2]
-            // console.log(tokenID)
-        }
-        //redirect alla pagina successiva 
-        //window.location.replace("./success.html")
+        const tx = await certificateNFT.mintNFT(ownerAddress, `https://${PINATA_GETAWAY}/ipfs/${jsonCID}`);
+        console.log("NFT mintato con successo!");
     } catch (error) {
-        alert("Errore in fase di interazione con smart contract ")
-        console.error(error)
+        alert("Errore in fase di interazione con smart contract");
+        console.error(error);
     }
-
-
-
 }
 
-async function readSelectedImage() {
-    //Permette al browser di leggere un file inserito dall'utente
-    fileImage = event.target.files[0]
-    const reader = new window.FileReader()
-    reader.readAsArrayBuffer(fileImage)
+
+async function readSelectedImage(event) {
+    fileImage = event.target.files[0];
+    const reader = new window.FileReader();
+    reader.readAsArrayBuffer(fileImage);
     reader.onloadend = (event) => {
-        const result = event.target.result
+        const result = event.target.result;
         blobImage = new Blob([result], { type: fileImage.type });
-        const url = URL.createObjectURL(blobImage)
-        loadImage(url)
-    }
+        const url = URL.createObjectURL(blobImage);
+        loadImage(url);
+    };
 }
-
-async function uploadToIPFS(data, title, dir) {
-    let cid
-    try {
-        //Funzione per caricare un file nel Nodo IPFS locale
-
-        //Evitare duplicati con hashes uguali 
-        const hostedFiles = await constants.ipfs.files.ls(dir)
-        let nomeValido = true;
-        for (let i = 0; i < hostedFiles.length; i++) {
-            if (hostedFiles[i].name == title) {
-                nomeValido = false
-                break;
-            }
-        }
-
-        if (nomeValido) {
-            // await ipfs.pin.add(result.path)
-            await constants.ipfs.files.write(dir + "/" + title, data, { create: true })
-            const fileStat = await constants.ipfs.files.stat(dir + "/" + title)
-            cid = fileStat.cid
-            success.innerHTML = "File successfully uploaded to: " + cid
-            success.style.visibility = "visible";
-            success.style.display = "block";
-        } else {
-            alert("Nome già presente nel file system distribuito, per favore cambiare il nome del file ")
-            error.hidden = false
-        }
-    } catch (error) {
-        innerHTML = "Errore in fase di caricamento IPFS "
-        console.log("path: " + dir + "/" + title)
-    }
-    return cid
-}
-
 
 async function loadImage(imageUrl) {
-    const viewImage = document.getElementById("selectedFileContainer")
-    const image = document.getElementById("selectedImageContainer")
-    viewImage.hidden = false
-    image.src = imageUrl
+    const viewImage = document.getElementById("selectedFileContainer");
+    const image = document.getElementById("selectedImageContainer");
+    viewImage.hidden = false;
+    image.src = imageUrl;
     image.style.visibility = "visible";
     image.style.display = "inline-block";
     document.getElementById("altPara").innerHTML = "";
 }
 
 function reimposta() {
-    success.hidden = true
-    error.hidden = true
+    success.hidden = true;
+    error.hidden = true;
+}
+
+// fnzione di pubblicazione dell immagine
+async function uploadFileToPinata(file) {
+    const url = "https://api.pinata.cloud/pinning/pinFileToIPFS";
+    const formData = new FormData();
+    
+    // Genera un timestamp per rendere il nome univoco
+    const timestamp = new Date().toISOString().replace(/[-:.]/g, "");
+    const fileName = `image_${timestamp}.${file.name.split('.').pop()}`;
+    
+    formData.append("file", file, fileName);
+
+    try {
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                pinata_api_key: PINATA_API_KEY,
+                pinata_secret_api_key: PINATA_API_SECRET
+            },
+            body: formData
+        });
+
+        const result = await response.json();
+        console.log("Immagine pubblicata su Pinata:", result);
+        return { cid: result.IpfsHash, timestamp };
+    } catch (error) {
+        console.error("Errore nel pinning dell'immagine su Pinata:", error);
+        return null;
+    }
 }
 
 
+// funzione di pubblicazione json su pinata
+async function pinJSONToPinata(jsonData, timestamp) {
+    const url = "https://api.pinata.cloud/pinning/pinJSONToIPFS";
+    
+    // Aggiungi il timestamp al nome del JSON
+    jsonData.name = `metadata_${timestamp}.json`;
+
+    try {
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                pinata_api_key: PINATA_API_KEY,
+                pinata_secret_api_key: PINATA_API_SECRET
+            },
+            body: JSON.stringify(jsonData)
+        });
+
+        const result = await response.json();
+        console.log("JSON pubblicato su Pinata:", result);
+        return result.IpfsHash;
+    } catch (error) {
+        console.error("Errore nel pinning del JSON su Pinata:", error);
+        return null;
+    }
+}
