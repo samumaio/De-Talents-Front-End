@@ -364,3 +364,11 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+input {
+    display: block;
+}
+
+.etherscanBtn {
+    color: #f0f2ff;
+}

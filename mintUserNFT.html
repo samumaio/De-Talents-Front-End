@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeTalents - Rilascia Certificato</title>
+    <title>Rilascia NFT Personale | DeTalents</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="issueCertificate.css">
     <link rel="stylesheet" href="login.css">
-    <script type="module" src="issueCertificate.js"> </script>
+    <script type="module" src="mintUserNFT.js"> </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/ipfs-http-client/dist/index.min.js"></script>
     <link rel="icon" type="image/x-icon" href="graduation-cap-solid.svg">
@@ -22,74 +22,52 @@
             <h1>DeTalents</h1>
         </div>
         <nav>
-            <a href="home.html"><i class="fas fa-home"></i> Home</a>
-            <a href="certificati.html" class="active"><i class="fas fa-certificate"></i> Rilascia un certificato</a>
-            <a href="login.html"><i class="fas fa-vote-yea"></i> Governance</a>
+            <a href="home.html"><i class="fas fa-home"></i>Home</a>
+            <a href="getUserNFT.html" class="active"><i class="fa-solid fa-user"></i>Ottieni NFT Personale </a>
+            <!-- <a href="progetti.html"><i class="fa-solid fa-money-bill"></i> Visualizza gli annunci</a> -->
         </nav>
     </header>
 
     <main class="certificate-container">
         <div class="breadcrumb">
             <a href="home.html">Home</a> >
-            <a href="login.html">Istituzione</a> >
-            <span>Rilascia Certificato</span>
+            <a href="viewUserCertificates.html">Pagina Personale</a> >
+            <span>Ottieni NFT personale</span>
         </div>
 
         <section class="certificate-card">
             <div class="section-header">
-                <i class="fas fa-certificate"></i>
-                <h2>Rilascia Nuovo Certificato NFT</h2>
+                <i class="fa-solid fa-user"></i>
+                <h2>Ottieni il tuo NFT Personale</h2>
             </div>
 
             <form id="issueCertificateForm" class="certificate-form">
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="walletAddress">
-                            <i class="fas fa-wallet"></i> Indirizzo Wallet Beneficiario
-                        </label>
-                        <input type="text" id="walletAddress" name="walletAddress" placeholder="0x..."
-                            pattern="^0x[a-fA-F0-9]{40}$" required>
-                    </div>
-
-                    <div class="form-group">
                         <label for="nome">
-                            <i class="fas fa-user"></i> Nome Beneficiario
+                            <i class="fa-solid fa-sack-dollar"></i> Liquidità associata
                         </label>
-                        <input type="text" id="nome" name="nome" required>
+                        <input type="number" id="nome" name="nome" min="0" step="0.001" />
                     </div>
 
                     <div class="form-group">
-                        <label for="cognome">
-                            <i class="fas fa-user"></i> Cognome Beneficiario
+                        <label for="userName">
+                            <i class="fa-solid fa-address-card"></i> Nome Utente
                         </label>
-                        <input type="text" id="cognome" name="cognome" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="dataRilascio">
-                            <i class="fas fa-calendar-alt"></i> Data di Rilascio
-                        </label>
-                        <input type="date" id="dataRilascio" name="dataRilascio">
-                    </div>
-
-                    <div class="form-group full-width">
-                        <label for="descrizione">
-                            <i class="fas fa-align-left"></i> Descrizione del Certificato
-                        </label>
-                        <textarea id="descrizione" name="descrizione" rows="4"
-                            placeholder="Es: Certificato di completamento corso Web Developer"></textarea>
+                        <input type="text" id="userName" name="userName"
+                            placeholder="Nome Utente da visualizzare sul NFT " required>
                     </div>
 
                     <div class="form-group full-width">
                         <label for="immagine">
-                            <i class="fas fa-image"></i> Immagine del Certificato
+                            <i class="fas fa-image"></i> Immagine associata
                         </label>
                         <div class="file-upload">
-                            <input type="file" id="immagine" name="immagine" required>
+                            <!-- <input type="file" id="immagine" name="immagine" required>
                             <label for="immagine" class="upload-label">
                                 <i class="fas fa-cloud-upload-alt"></i>
                                 <span>Scegli un file</span>
-                            </label>
+                            </label> -->
                             <div id="selectedFileContainer" class="file-preview">
                                 <p id="altPara">Nessun file selezionato</p>
                                 <img id="selectedImageContainer" alt="Anteprima immagine">
@@ -100,7 +78,10 @@
 
                 <div class="form-actions">
                     <button type="submit" class="primary-button">
-                        <i class="fas fa-paper-plane"></i> Rilascia Certificato
+                        <i class="fas fa-paper-plane"></i> Deposita Liquidità
+                    </button>
+                    <button class="primary-button" id="generatePreview">
+                        <i class="fa-solid fa-image-portrait"></i>Suggerisci un immagine
                     </button>
                     <button type="reset" class="secondary-button">
                         <i class="fas fa-undo"></i> Resetta
@@ -130,10 +111,12 @@
     </main>
 
     <footer class="dashboard-footer">
-        <p>DeTalents</p>
+        <p>DeTalents
+        </p>
         <div class="footer-links">
-            <a href="#"><i class="fab fa-github"></i> GitHub</a>
-            <a href="#"><i class="fas fa-book"></i> Docs</a>
+            <a href="https://qr.link/mNAKZG" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+            <a href="https://qr.codes/ixS5Wy"><i class="fas fa-book"></i> Docs</a>
+            <a href="" id="etherscanBtn" target="_blank"><i class="fa-solid fa-file-code"></i>Smart contract</a>
         </div>
     </footer>
 </body>

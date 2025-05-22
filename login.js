@@ -13,7 +13,7 @@ async function displayActiveProposals(signer) {
   //   proposal.endTime > currentTime
   // );
   for (let i = 0; i < proposals.length; i++) {
-    if (proposals[i].endTime > currentTime) {
+    if (proposals[i].endTime > currentTime && !(await governanceContract.hasVoted(i))) {
       const proposal = {
         proposalId: i,
         activeProposal: proposals[i],

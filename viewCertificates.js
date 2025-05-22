@@ -15,8 +15,8 @@ async function main() {
     const certificatesContainer = document.getElementById("certificates-container")
     //inizializza il contratto 
     const certificateNFT = new ethers.Contract(constants.governanceContractAddress, constants.governanceAbi, signer)
+    const userNFT = new ethers.Contract(constants.userNFTAddress, constants.userNFTAbi, signer)
     const balanceOf = await certificateNFT.balanceOf(signer.getAddress())
-    console.log(certificateNFT.getCounter());
     try {
         const tokenCounter = await certificateNFT.getCounter()
         const ownerAddress = await signer.getAddress()
@@ -62,6 +62,7 @@ async function main() {
             if (metadata.tokenId != null) {
                 const etherscanButton = document.createElement("button");
                 etherscanButton.innerHTML = "Visualizza Transazione su Etherscan";
+                etherscanButton.target = "_blank"
                 etherscanButton.addEventListener("click", async () => {
                     await redirectToEtherscan(metadata.tokenID, certificateNFT);
                 });
