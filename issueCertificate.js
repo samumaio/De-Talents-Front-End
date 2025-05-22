@@ -38,6 +38,7 @@ export async function connect() {
     }
 }
 
+
 async function uploadData(event) {
     event.preventDefault();
     
